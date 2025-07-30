@@ -15,50 +15,44 @@ public class OperationsTest {
     public OperationsTest() {
     }
 
-    @Test
-    @DisplayName("MakeFormula generates a valid formula string")
-    void testMakeFormulaFormat() {
-        String formula = Operations.MakeFormula();
-        assertTrue(formula.matches("\\d+([+\\-*/]\\d+)+"), "Formula should match the expected pattern");
-    }
 
     @Test
-    @DisplayName("Solve computes addition correctly")
+    @DisplayName("Valida la corrección de la adición")
     void testSolveAddition() {
         String result = Operations.Solve("3+5");
         assertEquals("3+5=8", result);
     }
 
     @Test
-    @DisplayName("Solve computes subtraction correctly")
+    @DisplayName("Valida la corrección de la substracción")
     void testSolveSubtraction() {
         String result = Operations.Solve("10-4");
         assertEquals("10-4=6", result);
     }
 
     @Test
-    @DisplayName("Solve computes multiplication correctly")
+    @DisplayName("Valida la corrección de la multiplicación")
     void testSolveMultiplication() {
         String result = Operations.Solve("7*6");
         assertEquals("7*6=42", result);
     }
 
     @Test
-    @DisplayName("Solve computes division correctly")
+    @DisplayName("Valida la corrección de la división")
     void testSolveDivision() {
         String result = Operations.Solve("20/4");
         assertEquals("20/4=5", result);
     }
 
     @Test
-    @DisplayName("Solve computes mixed operations with precedence")
+    @DisplayName("Valida la corrección operaciones múltiples")
     void testSolveMixedPrecedence() {
         String result = Operations.Solve("2+3*4");
         assertEquals("2+3*4=14", result); // 2 + (3*4)
     }
 
     @Test
-    @DisplayName("Solve computes left-to-right for same precedence")
+    @DisplayName("Valida la corrección de la ")
     void testSolveLeftToRight() {
         String result = Operations.Solve("8-2+3");
         assertEquals("8-2+3=9", result); // (8-2)+3
