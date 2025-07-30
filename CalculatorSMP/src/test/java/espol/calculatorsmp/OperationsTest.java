@@ -1,11 +1,10 @@
 package espol.calculatorsmp;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
@@ -16,63 +15,69 @@ public class OperationsTest {
     public OperationsTest() {
     }
 
-    @org.junit.jupiter.api.BeforeAll
-    public static void setUpClass() throws Exception {
+    @Test
+    @DisplayName("MakeFormula generates a valid formula string")
+    void testMakeFormulaFormat() {
+        String formula = Operations.MakeFormula();
+        assertTrue(formula.matches("\\d+([+\\-*/]\\d+)+"), "Formula should match the expected pattern");
     }
 
-    @org.junit.jupiter.api.AfterAll
-    public static void tearDownClass() throws Exception {
+    @Test
+    @DisplayName("Solve computes addition correctly")
+    void testSolveAddition() {
+        String result = Operations.Solve("3+5");
+        assertEquals("3+5=8", result);
     }
 
-    @org.junit.jupiter.api.BeforeEach
-    public void setUp() throws Exception {
+    @Test
+    @DisplayName("Solve computes subtraction correctly")
+    void testSolveSubtraction() {
+        String result = Operations.Solve("10-4");
+        assertEquals("10-4=6", result);
     }
 
-    @org.junit.jupiter.api.AfterEach
-    public void tearDown() throws Exception {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
+    @Test
+    @DisplayName("Solve computes multiplication correctly")
+    void testSolveMultiplication() {
+        String result = Operations.Solve("7*6");
+        assertEquals("7*6=42", result);
     }
 
-    /**
-     * Test of MakeFormula method, of class Operations.
-     */
-    @org.junit.jupiter.api.Test
-    public void testMakeFormula() {
-        System.out.println("MakeFormula");
-        String expResult = "";
-        String result = Operations.MakeFormula();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    @Test
+    @DisplayName("Solve computes division correctly")
+    void testSolveDivision() {
+        String result = Operations.Solve("20/4");
+        assertEquals("20/4=5", result);
     }
 
-    /**
-     * Test of Solve method, of class Operations.
-     */
-    @org.junit.jupiter.api.Test
-    public void testSolve() {
-        System.out.println("Solve");
-        String formula = "";
-        String expResult = "";
-        String result = Operations.Solve(formula);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    @Test
+    @DisplayName("Solve computes mixed operations with precedence")
+    void testSolveMixedPrecedence() {
+        String result = Operations.Solve("2+3*4");
+        assertEquals("2+3*4=14", result); // 2 + (3*4)
+    }
+
+    @Test
+    @DisplayName("Solve computes left-to-right for same precedence")
+    void testSolveLeftToRight() {
+        String result = Operations.Solve("8-2+3");
+        assertEquals("8-2+3=9", result); // (8-2)+3
+    }
+
+    @Test
+    @DisplayName("Solve handles multiple operations")
+    void testSolveMultipleOperations() {
+        String result = Operations.Solve("5+2*3-1");
+        assertEquals("5+2*3-1=10", result); // 5+(2*3)-1
+    }
+
+    @Test
+    @DisplayName("Solve handles division by zero gracefully")
+    void testSolveDivisionByZero() {
+        Exception exception = assertThrows(ArithmeticException.class, () -> {
+            Operations.Solve("5/0");
+        });
+        assertTrue(exception.getMessage().contains("/ by zero"));
     }
     
 }
